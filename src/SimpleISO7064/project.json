@@ -1,0 +1,41 @@
+﻿{
+  "version": "1.0.0-alpha01",
+  "title": "Simple ISO 7064",
+  "description": "C# library that provide ISO 7064 implementations to verify or calculate check characters.",
+  "authors": [ "João Simões" ],
+  "copyright": "Copyright © 2016 João Simões",
+  "packOptions": {
+    "summary": "Provide ISO 7064 implementations to verify or calculate check characters.",
+    "tags": [ "ISO7064", "checksum" ],
+    "projectUrl": "https://github.com/gravity00/SimpleISO7064",
+    "licenseUrl": "https://raw.githubusercontent.com/gravity00/SimpleISO7064/master/LICENSE",
+    "iconUrl": "",
+    "releaseNotes": "",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/gravity00/SimpleISO7064"
+    }
+  },
+  "buildOptions": {
+    "xmlDoc": true,
+    "optimize": true
+  },
+
+  "frameworks": {
+    "net4.5": {
+      "frameworkAssemblies": {
+        "System.Runtime": ""
+      }
+    },
+    "netcore5.0": {
+      "dependencies": {
+        "System.Runtime": "4.1.0"
+      }
+    },
+    "netstandard1.0": {
+      "dependencies": {
+        "System.Runtime": "4.1.0"
+      }
+    }
+  }
+}
