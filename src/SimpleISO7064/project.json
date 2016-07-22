@@ -18,6 +18,7 @@
   },
   "buildOptions": {
     "xmlDoc": true,
+    "keyFile": "../../tools/SimpleISO7064.snk",
     "optimize": true
   },
 

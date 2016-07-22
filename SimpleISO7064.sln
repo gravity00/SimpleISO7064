@@ -19,6 +19,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "git", "git", "{D6556BE1-C6F
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{CB34D34F-E825-4A51-8ADD-487CE3A97A6C}"
+	ProjectSection(SolutionItems) = preProject
+		tools\SimpleISO7064.PublicKey = tools\SimpleISO7064.PublicKey
+		tools\SimpleISO7064.snk = tools\SimpleISO7064.snk
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "other", "other", "{A8F8ED2C-A0B4-4304-9BB9-624F2CB63618}"
 	ProjectSection(SolutionItems) = preProject
