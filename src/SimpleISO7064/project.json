@@ -23,6 +23,16 @@
   },
 
   "frameworks": {
+    "monoandroid1.0": {
+      "frameworkAssemblies": {
+        "mscorlib": ""
+      }
+    },
+    "monotouch1.0": {
+      "frameworkAssemblies": {
+        "mscorlib": ""
+      }
+    },
     "net4.0": {
       "frameworkAssemblies": {
         "mscorlib": ""
@@ -41,6 +51,16 @@
     "netstandard1.0": {
       "dependencies": {
         "System.Runtime": "4.1.0"
+      }
+    },
+    "xamarinios1.0": {
+      "frameworkAssemblies": {
+        "mscorlib": ""
+      }
+    },
+    "xamarintvos1.0": {
+      "frameworkAssemblies": {
+        "mscorlib": ""
       }
     }
   }
