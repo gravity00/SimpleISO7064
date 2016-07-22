@@ -23,9 +23,14 @@
   },
 
   "frameworks": {
+    "net4.0": {
+      "frameworkAssemblies": {
+        "mscorlib": ""
+      }
+    },
     "net4.5": {
       "frameworkAssemblies": {
-        "System.Runtime": ""
+        "mscorlib": ""
       }
     },
     "netcore5.0": {
