@@ -25,6 +25,7 @@ namespace SimpleISO7064
 {
     using System;
     using System.Collections.Generic;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// An ISO 7064 Pure System provider to validate or 
@@ -32,6 +33,8 @@ namespace SimpleISO7064
     /// </summary>
     public sealed class Iso7064PureSystemProvider
     {
+        private readonly int _numCheckDigits;
+
         /// <summary>
         /// Creates a new instance.
         /// </summary>
@@ -58,6 +61,8 @@ namespace SimpleISO7064
             Radix = radix;
             IsDoubleCheckDigit = isDoubleCheckDigit;
             CharacterSet = characterSet;
+
+            _numCheckDigits = IsDoubleCheckDigit ? 2 : 1;
         }
 
         /// <summary>
@@ -87,24 +92,16 @@ namespace SimpleISO7064
         /// <summary>
         /// Checks if the given value contains a valid check digit.
         /// </summary>
-        /// <param name="computedValue">The value to check</param>
+        /// <param name="value">The value to check</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
-        public bool IsValid(string computedValue)
+        public bool IsValid(string value)
         {
-            if (computedValue == null)
-                throw new ArgumentNullException(nameof(computedValue));
-            if (string.IsNullOrWhiteSpace(computedValue))
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(computedValue));
+            ValidateInput(value);
+            value = value.ToUpperInvariant();
 
-            var numCheckDigits = IsDoubleCheckDigit ? 2 : 1;
-            if (computedValue.Length <= numCheckDigits)
-                throw new ArgumentException(
-                    string.Concat("Value length should be greater than ", numCheckDigits), nameof(computedValue));
-
-            computedValue = computedValue.ToUpperInvariant();
-            return computedValue.Equals(Compute(computedValue.Substring(0, computedValue.Length - numCheckDigits)));
+            return value.Equals(Compute(value.Substring(0, value.Length - _numCheckDigits)));
         }
 
         /// <summary>
@@ -114,25 +111,47 @@ namespace SimpleISO7064
         /// <returns>The check digit</returns>
         public string ComputeCheckDigit(string value)
         {
+            ValidateInput(value);
+            value = value.ToUpperInvariant();
+
             throw new NotImplementedException();
         }
 
         /// <summary>
         /// Computes the check digit and appends it to the given value.
         /// </summary>
-        /// <param name="valueToCompute">The value from which the check digit will be computed</param>
+        /// <param name="value">The value from which the check digit will be computed</param>
         /// <returns>The value and appended check digit</returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
-        public string Compute(string valueToCompute)
+        public string Compute(string value)
         {
-            if (valueToCompute == null)
-                throw new ArgumentNullException(nameof(valueToCompute));
-            if (string.IsNullOrWhiteSpace(valueToCompute))
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(valueToCompute));
+            ValidateInput(value);
+            value = value.ToUpperInvariant();
 
-            valueToCompute = valueToCompute.ToUpperInvariant();
-            return string.Concat(valueToCompute, ComputeCheckDigit(valueToCompute));
+            return string.Concat(value, ComputeCheckDigit(value));
+        }
+
+        /// <summary>
+        /// Validates if the given value can be computed and returns the value
+        /// ready to be processed.
+        /// </summary>
+        /// <param name="value">The value to be validates and prepared</param>
+        /// <returns>The value prepared for processing</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+#if !NET40
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        private void ValidateInput(string value)
+        {
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(value));
+            if (value.Length <= _numCheckDigits)
+                throw new ArgumentException(
+                    string.Concat("Value length should be greater than ", _numCheckDigits), nameof(value));
         }
     }
 }
