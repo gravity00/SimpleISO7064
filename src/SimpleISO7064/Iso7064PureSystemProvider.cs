@@ -114,7 +114,33 @@ namespace SimpleISO7064
             ValidateInput(value);
             value = value.ToUpperInvariant();
 
-            throw new NotImplementedException();
+            int tmpCalculation = 0;
+
+            foreach (char valueDigit in value)
+            {
+                int digit = Convert.ToInt32(valueDigit);
+
+                tmpCalculation = ((tmpCalculation + digit)*Radix)%Modulus;
+            }
+
+            if (IsDoubleCheckDigit)
+            {
+                tmpCalculation = (tmpCalculation*Radix)%Modulus;
+            }
+
+            int checksum = (Modulus - tmpCalculation + 1)%Modulus;
+
+            if (IsDoubleCheckDigit)
+            {
+                int secondPosition = checksum%Radix;
+                int firstPosition = (checksum - secondPosition)/Radix;
+
+                return string.Concat(value[firstPosition], value[secondPosition]);
+            }
+            else
+            {
+                return value[checksum].ToString();
+            }
         }
 
         /// <summary>
