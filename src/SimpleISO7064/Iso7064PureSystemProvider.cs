@@ -118,9 +118,7 @@ namespace SimpleISO7064
 
             foreach (char valueDigit in value)
             {
-                int digit = Convert.ToInt32(valueDigit);
-
-                tmpCalculation = ((tmpCalculation + digit)*Radix)%Modulus;
+                tmpCalculation = ((tmpCalculation + CharacterSet.IndexOf(valueDigit)) *Radix)%Modulus;
             }
 
             if (IsDoubleCheckDigit)
@@ -130,17 +128,15 @@ namespace SimpleISO7064
 
             int checksum = (Modulus - tmpCalculation + 1)%Modulus;
 
-            if (IsDoubleCheckDigit)
+            if (!IsDoubleCheckDigit)
             {
-                int secondPosition = checksum%Radix;
-                int firstPosition = (checksum - secondPosition)/Radix;
+                return CharacterSet[checksum].ToString();
+            }
 
-                return string.Concat(value[firstPosition], value[secondPosition]);
-            }
-            else
-            {
-                return value[checksum].ToString();
-            }
+            int secondPosition = checksum%Radix;
+            int firstPosition = (checksum - secondPosition)/Radix;
+
+            return string.Concat(CharacterSet[firstPosition], CharacterSet[secondPosition]);
         }
 
         /// <summary>
