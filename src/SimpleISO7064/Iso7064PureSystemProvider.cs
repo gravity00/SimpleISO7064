@@ -84,7 +84,7 @@ namespace SimpleISO7064
         /// The supported character set
         /// </summary>
 #if NET40
-        public IEnumerable<char> CharacterSet { get; }
+        public IList<char> CharacterSet { get; }
 #else
         public IReadOnlyCollection<char> CharacterSet { get; }
 #endif
