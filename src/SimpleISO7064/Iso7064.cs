@@ -53,7 +53,7 @@ namespace SimpleISO7064
             /// <summary>
             /// Singleton Mod 97 Radix 10 provider
             /// </summary>
-            public static Iso7064PureSystemProvider Mod97Radix10 { get; } = Factory.GetMod97Radix10();
+            public static Mod97Radix10 Mod97Radix10 { get; } = Factory.GetMod97Radix10();
 
             /// <summary>
             /// Singleton Mod 661 Radix 26 provider

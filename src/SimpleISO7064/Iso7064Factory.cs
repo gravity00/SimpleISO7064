@@ -52,9 +52,9 @@ namespace SimpleISO7064
         /// Creates a insatnce of <see cref="Iso7064PureSystemProvider"/> with Modulus 97 and Radix 10
         /// </summary>
         /// <returns>An ISO 7064 Pure System provider to validate or compute check digits, with Modulus 97 and Radix 10</returns>
-        public Iso7064PureSystemProvider GetMod97Radix10()
+        public Mod97Radix10 GetMod97Radix10()
         {
-            return new Iso7064PureSystemProvider(97, 10, true, "0123456789");
+            return new Mod97Radix10();
         }
 
         /// <summary>
