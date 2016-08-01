@@ -157,7 +157,10 @@ namespace SimpleISO7064
 
             foreach (var valueDigit in value)
             {
-                tmpCalculation = ((tmpCalculation + CharacterSet.IndexOf(valueDigit)) *Radix)%Modulus;
+                var indexToAdd = CharacterSet.IndexOf(valueDigit);
+                if (indexToAdd < 0)
+                    throw new ArgumentException($"Found illegal character '{valueDigit}'", nameof(value));
+                tmpCalculation = ((tmpCalculation + indexToAdd) *Radix)%Modulus;
             }
 
             if (IsDoubleCheckDigit)
