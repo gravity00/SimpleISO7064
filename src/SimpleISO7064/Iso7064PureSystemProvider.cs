@@ -157,7 +157,7 @@ namespace SimpleISO7064
         /// <returns>The value prepared for processing</returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
-#if !NET40
+#if !NET40 && !PORTABLE40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private void ValidateInput(string value)
