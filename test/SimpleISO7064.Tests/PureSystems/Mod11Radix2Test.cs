@@ -61,13 +61,33 @@ namespace SimpleISO7064.Tests.PureSystems
             Assert.False(provider.IsValid(computedValue));
         }
 
-        [Theory, MemberData(nameof(BadFormatComputedData))]
+        [Theory, MemberData(nameof(BadFormatData))]
         public void GivenAnBadFormatComputedValueWhenValidatedThenExceptionMustBeThrown(string computedValue)
         {
             var provider = new Mod11Radix2();
             Assert.ThrowsAny<ArgumentException>(() =>
             {
                 provider.IsValid(computedValue);
+            });
+        }
+
+        [Theory, MemberData(nameof(BadFormatData))]
+        public void GivenAnBadFormatComputedValueWhenComputedThenExceptionMustBeThrown(string computedValue)
+        {
+            var provider = new Mod11Radix2();
+            Assert.ThrowsAny<ArgumentException>(() =>
+            {
+                provider.Compute(computedValue);
+            });
+        }
+
+        [Theory, MemberData(nameof(BadFormatData))]
+        public void GivenAnBadFormatComputedValueWhenComputedCheckDigitThenExceptionMustBeThrown(string computedValue)
+        {
+            var provider = new Mod11Radix2();
+            Assert.ThrowsAny<ArgumentException>(() =>
+            {
+                provider.ComputeCheckDigit(computedValue);
             });
         }
 
@@ -111,7 +131,7 @@ namespace SimpleISO7064.Tests.PureSystems
             }
         }
 
-        public static IEnumerable<object[]> BadFormatComputedData
+        public static IEnumerable<object[]> BadFormatData
         {
             get
             {
