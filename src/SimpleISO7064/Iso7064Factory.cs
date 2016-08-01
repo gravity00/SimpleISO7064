@@ -23,6 +23,9 @@
 #endregion
 namespace SimpleISO7064
 {
+    /// <summary>
+    /// Factory class for building ISO 7064 providers
+    /// </summary>
     public class Iso7064Factory
     {
         /// <summary>
