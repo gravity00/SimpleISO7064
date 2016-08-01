@@ -24,7 +24,6 @@
 namespace SimpleISO7064
 {
     using System;
-    using System.Collections.Generic;
     using System.Runtime.CompilerServices;
 
     /// <summary>
@@ -43,9 +42,13 @@ namespace SimpleISO7064
         /// <param name="isDoubleCheckDigit">Is the computed check digit composed by two characters?</param>
         /// <param name="characterSet">The supported character set</param>
         public Iso7064PureSystemProvider(int modulus, int radix, bool isDoubleCheckDigit, string characterSet)
-            :this(modulus, radix, isDoubleCheckDigit, characterSet.ToCharArray())
         {
+            Modulus = modulus;
+            Radix = radix;
+            IsDoubleCheckDigit = isDoubleCheckDigit;
+            CharacterSet = characterSet;
 
+            _numCheckDigits = IsDoubleCheckDigit ? 2 : 1;
         }
 
         /// <summary>
@@ -56,13 +59,9 @@ namespace SimpleISO7064
         /// <param name="isDoubleCheckDigit">Is the computed check digit composed by two characters?</param>
         /// <param name="characterSet">The supported character set</param>
         public Iso7064PureSystemProvider(int modulus, int radix, bool isDoubleCheckDigit, params char[] characterSet)
+            : this(modulus, radix, isDoubleCheckDigit, new string(characterSet))
         {
-            Modulus = modulus;
-            Radix = radix;
-            IsDoubleCheckDigit = isDoubleCheckDigit;
-            CharacterSet = characterSet;
 
-            _numCheckDigits = IsDoubleCheckDigit ? 2 : 1;
         }
 
         /// <summary>
@@ -83,11 +82,7 @@ namespace SimpleISO7064
         /// <summary>
         /// The supported character set
         /// </summary>
-#if NET40
-        public IList<char> CharacterSet { get; }
-#else
-        public IReadOnlyCollection<char> CharacterSet { get; }
-#endif
+        public string CharacterSet { get; }
 
         /// <summary>
         /// Checks if the given value contains a valid check digit.
@@ -114,9 +109,9 @@ namespace SimpleISO7064
             ValidateInput(value);
             value = value.ToUpperInvariant();
 
-            int tmpCalculation = 0;
+            var tmpCalculation = 0;
 
-            foreach (char valueDigit in value)
+            foreach (var valueDigit in value)
             {
                 tmpCalculation = ((tmpCalculation + CharacterSet.IndexOf(valueDigit)) *Radix)%Modulus;
             }
