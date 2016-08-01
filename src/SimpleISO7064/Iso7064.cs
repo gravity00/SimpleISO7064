@@ -48,7 +48,7 @@ namespace SimpleISO7064
             /// <summary>
             /// Singleton Mod 37 Radix 2 provider
             /// </summary>
-            public static Iso7064PureSystemProvider Mod37Radix2 { get; } = Factory.GetMod37Radix2();
+            public static Mod37Radix2 Mod37Radix2 { get; } = Factory.GetMod37Radix2();
 
             /// <summary>
             /// Singleton Mod 97 Radix 10 provider
