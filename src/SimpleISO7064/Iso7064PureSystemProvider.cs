@@ -49,8 +49,13 @@ namespace SimpleISO7064
         {
             if (characterSet == null)
                 throw new ArgumentNullException(nameof(characterSet));
+#if NET20
+            if (IsNullOrWhiteSpace(characterSet))
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(characterSet));
+#else
             if (string.IsNullOrWhiteSpace(characterSet))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(characterSet));
+#endif
 
             Modulus = modulus;
             Radix = radix;
@@ -77,8 +82,13 @@ namespace SimpleISO7064
                 throw new ArgumentException("Value cannot be an empty collection.", nameof(characterSet));
 
             var characterSetAsString = new string(characterSet);
+#if NET20
+            if (IsNullOrWhiteSpace(characterSetAsString))
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(characterSet));
+#else
             if (string.IsNullOrWhiteSpace(characterSetAsString))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(characterSet));
+#endif
 
             Modulus = modulus;
             Radix = radix;
