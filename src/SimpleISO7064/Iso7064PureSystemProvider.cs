@@ -43,10 +43,15 @@ namespace SimpleISO7064
         /// <param name="radix">The pure system radiz</param>
         /// <param name="isDoubleCheckDigit">Is the computed check digit composed by two characters?</param>
         /// <param name="characterSet">The supported character set</param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
         public Iso7064PureSystemProvider(int modulus, int radix, bool isDoubleCheckDigit, string characterSet)
         {
+            if (modulus <= 0)
+                throw new ArgumentOutOfRangeException(nameof(modulus));
+            if (radix <= 0)
+                throw new ArgumentOutOfRangeException(nameof(radix));
             if (characterSet == null)
                 throw new ArgumentNullException(nameof(characterSet));
 #if NET20
@@ -72,10 +77,15 @@ namespace SimpleISO7064
         /// <param name="radix">The pure system radiz</param>
         /// <param name="isDoubleCheckDigit">Is the computed check digit composed by two characters?</param>
         /// <param name="characterSet">The supported character set</param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
         public Iso7064PureSystemProvider(int modulus, int radix, bool isDoubleCheckDigit, params char[] characterSet)
         {
+            if (modulus <= 0)
+                throw new ArgumentOutOfRangeException(nameof(modulus));
+            if (radix <= 0)
+                throw new ArgumentOutOfRangeException(nameof(radix));
             if (characterSet == null)
                 throw new ArgumentNullException(nameof(characterSet));
             if (characterSet.Length == 0)
