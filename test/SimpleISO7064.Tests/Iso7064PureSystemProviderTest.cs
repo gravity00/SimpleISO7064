@@ -23,13 +23,14 @@
 #endregion
 namespace SimpleISO7064.Tests
 {
+    using System;
     using System.Collections.Generic;
     using Xunit;
 
     public class Iso7064PureSystemProviderTest
     {
         [Theory, MemberData(nameof(ValidParametersData))]
-        public void GivenAPureSystemProviderValidParametersWhenInstanceCreatedAllPropertiesHaveTheSameValues(
+        public void GivenAPureSystemProviderValidParametersWhenInstanceCreatedThenAllPropertiesHaveTheSameValues(
             int modulus, int radix, bool isDoubleCheckDigit, string characterSet)
         {
             var provider = new Iso7064PureSystemProvider(modulus, radix, isDoubleCheckDigit, characterSet);
@@ -41,7 +42,7 @@ namespace SimpleISO7064.Tests
         }
 
         [Theory, MemberData(nameof(ValidParametersWithCharArrayData))]
-        public void GivenAPureSystemProviderValidParametersWhenInstanceCreatedAllPropertiesHaveTheSameValues(
+        public void GivenAPureSystemProviderValidParametersWhenInstanceCreatedThenAllPropertiesHaveTheSameValues(
             int modulus, int radix, bool isDoubleCheckDigit, char[] characterSet)
         {
             var provider = new Iso7064PureSystemProvider(modulus, radix, isDoubleCheckDigit, characterSet);
@@ -50,6 +51,26 @@ namespace SimpleISO7064.Tests
             Assert.Equal(radix, provider.Radix);
             Assert.Equal(isDoubleCheckDigit, provider.IsDoubleCheckDigit);
             Assert.Equal(characterSet, provider.CharacterSet.ToCharArray());
+        }
+
+        [Theory, MemberData(nameof(InvalidParametersData))]
+        public void GivenAPureSystemProviderInvalidParametersWhenInstanceCreatedThenAnArgumentExceptionIsThrown(
+            int modulus, int radix, bool isDoubleCheckDigit, string characterSet)
+        {
+            Assert.ThrowsAny<ArgumentException>(() =>
+            {
+                new Iso7064PureSystemProvider(modulus, radix, isDoubleCheckDigit, characterSet);
+            });
+        }
+
+        [Theory, MemberData(nameof(InvalidParametersWithCharArrayData))]
+        public void GivenAPureSystemProviderInvalidParametersWhenInstanceCreatedThenAnArgumentExceptionIsThrown(
+            int modulus, int radix, bool isDoubleCheckDigit, char[] characterSet)
+        {
+            Assert.ThrowsAny<ArgumentException>(() =>
+            {
+                new Iso7064PureSystemProvider(modulus, radix, isDoubleCheckDigit, characterSet);
+            });
         }
 
         #region Data
@@ -75,6 +96,34 @@ namespace SimpleISO7064.Tests
                 yield return new object[] { 97, 10, true, "0123456789".ToCharArray() };
                 yield return new object[] { 661, 26, true, "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray() };
                 yield return new object[] { 1271, 36, true, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXZY".ToCharArray() };
+            }
+        }
+
+        public static IEnumerable<object[]> InvalidParametersData
+        {
+            get
+            {
+                yield return new object[] { 0, 2, false, "0123456789X" };
+                yield return new object[] { -20, 2, false, "0123456789X" };
+                yield return new object[] { 11, 0, false, "0123456789X" };
+                yield return new object[] { 11, -30, false, "0123456789X" };
+                yield return new object[] { 11, 2, false, null };
+                yield return new object[] { 11, 2, false, "" };
+                yield return new object[] { 11, 2, false, "     " };
+            }
+        }
+
+        public static IEnumerable<object[]> InvalidParametersWithCharArrayData
+        {
+            get
+            {
+                yield return new object[] { 0, 2, false, "0123456789X".ToCharArray() };
+                yield return new object[] { -20, 2, false, "0123456789X".ToCharArray() };
+                yield return new object[] { 11, 0, false, "0123456789X".ToCharArray() };
+                yield return new object[] { 11, -30, false, "0123456789X".ToCharArray() };
+                yield return new object[] { 11, 2, false, null };
+                yield return new object[] { 11, 2, false, "".ToCharArray() };
+                yield return new object[] { 11, 2, false, "     ".ToCharArray() };
             }
         }
 
