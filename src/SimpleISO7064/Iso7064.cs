@@ -63,7 +63,7 @@ namespace SimpleISO7064
             /// <summary>
             /// Singleton Mod 1271 Radix 36 provider
             /// </summary>
-            public static Iso7064PureSystemProvider Mod1271Radix36 { get; } = Factory.GetMod1271Radix36();
+            public static Mod1271Radix36 Mod1271Radix36 { get; } = Factory.GetMod1271Radix36();
         }
     }
 }
