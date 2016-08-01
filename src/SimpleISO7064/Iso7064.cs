@@ -58,7 +58,7 @@ namespace SimpleISO7064
             /// <summary>
             /// Singleton Mod 661 Radix 26 provider
             /// </summary>
-            public static Iso7064PureSystemProvider Mod661Radix26 { get; } = Factory.GetMod661Radix26();
+            public static Mod661Radix26 Mod661Radix26 { get; } = Factory.GetMod661Radix26();
 
             /// <summary>
             /// Singleton Mod 1271 Radix 36 provider

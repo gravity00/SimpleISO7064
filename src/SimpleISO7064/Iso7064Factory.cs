@@ -61,9 +61,9 @@ namespace SimpleISO7064
         /// Creates a insatnce of <see cref="Iso7064PureSystemProvider"/> with Modulus 661 and Radix 26
         /// </summary>
         /// <returns>An ISO 7064 Pure System provider to validate or compute check digits, with Modulus 661 and Radix 26</returns>
-        public Iso7064PureSystemProvider GetMod661Radix26()
+        public Mod661Radix26 GetMod661Radix26()
         {
-            return new Iso7064PureSystemProvider(661, 26, true, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+            return new Mod661Radix26();
         }
 
         /// <summary>
