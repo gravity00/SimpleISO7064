@@ -23,7 +23,6 @@
 #endregion
 namespace SimpleISO7064.Tests
 {
-    using System;
     using System.Collections.Generic;
     using Xunit;
 
@@ -50,7 +49,7 @@ namespace SimpleISO7064.Tests
             Assert.Equal(modulus, provider.Modulus);
             Assert.Equal(radix, provider.Radix);
             Assert.Equal(isDoubleCheckDigit, provider.IsDoubleCheckDigit);
-            Assert.Equal(new string(characterSet), provider.CharacterSet);
+            Assert.Equal(characterSet, provider.CharacterSet.ToCharArray());
         }
 
         #region Data
@@ -59,15 +58,11 @@ namespace SimpleISO7064.Tests
         {
             get
             {
-                var random = new Random();
-                for(var i = 0; i < 10; i++)
-                {
-                    var randomValue = random.Next(1, 2000);
-                    yield return new object[]
-                    {
-                        randomValue, randomValue % 3, randomValue%2 == 0, string.Concat("ABCD", randomValue.ToString())
-                    };
-                }
+                yield return new object[] { 11, 2, false, "0123456789X" };
+                yield return new object[] { 37, 2, false, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ*" };
+                yield return new object[] { 97, 10, true, "0123456789" };
+                yield return new object[] { 661, 26, true, "ABCDEFGHIJKLMNOPQRSTUVWXYZ" };
+                yield return new object[] { 1271, 36, true, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXZY" };
             }
         }
 
@@ -75,15 +70,11 @@ namespace SimpleISO7064.Tests
         {
             get
             {
-                var random = new Random();
-                for (var i = 0; i < 10; i++)
-                {
-                    var randomValue = random.Next(1, 2000);
-                    yield return new object[]
-                    {
-                        randomValue, randomValue % 3, randomValue%2 == 0, string.Concat("ABCD", randomValue.ToString()).ToCharArray()
-                    };
-                }
+                yield return new object[] { 11, 2, false, "0123456789X".ToCharArray() };
+                yield return new object[] { 37, 2, false, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ*".ToCharArray() };
+                yield return new object[] { 97, 10, true, "0123456789".ToCharArray() };
+                yield return new object[] { 661, 26, true, "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray() };
+                yield return new object[] { 1271, 36, true, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXZY".ToCharArray() };
             }
         }
 
