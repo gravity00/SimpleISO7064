@@ -9,7 +9,7 @@
     "tags": [ "ISO7064", "checksum" ],
     "projectUrl": "https://github.com/gravity00/SimpleISO7064",
     "licenseUrl": "https://raw.githubusercontent.com/gravity00/SimpleISO7064/master/LICENSE",
-    "iconUrl": "",
+    "iconUrl": "https://raw.githubusercontent.com/gravity00/SimpleISO7064/master/tools/SimpleISO7064-Logo.png",
     "releaseNotes": "",
     "repository": {
       "type": "git",
