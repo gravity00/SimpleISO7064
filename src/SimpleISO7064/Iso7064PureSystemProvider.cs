@@ -43,8 +43,15 @@ namespace SimpleISO7064
         /// <param name="radix">The pure system radiz</param>
         /// <param name="isDoubleCheckDigit">Is the computed check digit composed by two characters?</param>
         /// <param name="characterSet">The supported character set</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public Iso7064PureSystemProvider(int modulus, int radix, bool isDoubleCheckDigit, string characterSet)
         {
+            if (characterSet == null)
+                throw new ArgumentNullException(nameof(characterSet));
+            if (string.IsNullOrWhiteSpace(characterSet))
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(characterSet));
+
             Modulus = modulus;
             Radix = radix;
             IsDoubleCheckDigit = isDoubleCheckDigit;
@@ -60,10 +67,25 @@ namespace SimpleISO7064
         /// <param name="radix">The pure system radiz</param>
         /// <param name="isDoubleCheckDigit">Is the computed check digit composed by two characters?</param>
         /// <param name="characterSet">The supported character set</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public Iso7064PureSystemProvider(int modulus, int radix, bool isDoubleCheckDigit, params char[] characterSet)
-            : this(modulus, radix, isDoubleCheckDigit, new string(characterSet))
         {
+            if (characterSet == null)
+                throw new ArgumentNullException(nameof(characterSet));
+            if (characterSet.Length == 0)
+                throw new ArgumentException("Value cannot be an empty collection.", nameof(characterSet));
 
+            var characterSetAsString = new string(characterSet);
+            if (string.IsNullOrWhiteSpace(characterSetAsString))
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(characterSet));
+
+            Modulus = modulus;
+            Radix = radix;
+            IsDoubleCheckDigit = isDoubleCheckDigit;
+            CharacterSet = characterSetAsString;
+
+            _numCheckDigits = IsDoubleCheckDigit ? 2 : 1;
         }
 
         /// <summary>
