@@ -29,7 +29,7 @@ namespace SimpleISO7064.Tests
 
     public class Iso7064PureSystemProviderTest
     {
-        [Theory, MemberData(nameof(PureSystemProviderValidParametersData))]
+        [Theory, MemberData(nameof(ValidParametersData))]
         public void GivenAPureSystemProviderValidParametersWhenInstanceCreatedAllPropertiesHaveTheSameValues(
             int modulus, int radix, bool isDoubleCheckDigit, string characterSet)
         {
@@ -41,9 +41,21 @@ namespace SimpleISO7064.Tests
             Assert.Equal(characterSet, provider.CharacterSet);
         }
 
+        [Theory, MemberData(nameof(ValidParametersWithCharArrayData))]
+        public void GivenAPureSystemProviderValidParametersWhenInstanceCreatedAllPropertiesHaveTheSameValues(
+            int modulus, int radix, bool isDoubleCheckDigit, char[] characterSet)
+        {
+            var provider = new Iso7064PureSystemProvider(modulus, radix, isDoubleCheckDigit, characterSet);
+
+            Assert.Equal(modulus, provider.Modulus);
+            Assert.Equal(radix, provider.Radix);
+            Assert.Equal(isDoubleCheckDigit, provider.IsDoubleCheckDigit);
+            Assert.Equal(new string(characterSet), provider.CharacterSet);
+        }
+
         #region Data
 
-        public static IEnumerable<object[]> PureSystemProviderValidParametersData
+        public static IEnumerable<object[]> ValidParametersData
         {
             get
             {
@@ -54,6 +66,22 @@ namespace SimpleISO7064.Tests
                     yield return new object[]
                     {
                         randomValue, randomValue % 3, randomValue%2 == 0, string.Concat("ABCD", randomValue.ToString())
+                    };
+                }
+            }
+        }
+
+        public static IEnumerable<object[]> ValidParametersWithCharArrayData
+        {
+            get
+            {
+                var random = new Random();
+                for (var i = 0; i < 10; i++)
+                {
+                    var randomValue = random.Next(1, 2000);
+                    yield return new object[]
+                    {
+                        randomValue, randomValue % 3, randomValue%2 == 0, string.Concat("ABCD", randomValue.ToString()).ToCharArray()
                     };
                 }
             }
