@@ -25,7 +25,7 @@
 using System;
 using System.Reflection;
 
-#if NET40 || NET45
+#if NET20 || NET40 || NET45
 using System.Runtime.InteropServices;
 #endif
 
@@ -38,7 +38,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-#if NET40 || NET45
+#if NET20 || NET40 || NET45
 
 [assembly: ComVisible(false)]
 [assembly: Guid("87383ce8-a8cc-4432-bc5c-166eeeba3a58")]
@@ -48,4 +48,4 @@ using System.Runtime.InteropServices;
 [assembly: CLSCompliant(true)]
 
 [assembly: AssemblyVersion("1.0.0")]
-[assembly: AssemblyInformationalVersion("1.0.0-alpha01")]
+[assembly: AssemblyInformationalVersion("1.0.0-rc01")]
