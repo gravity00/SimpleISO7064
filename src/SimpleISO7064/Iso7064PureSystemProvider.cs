@@ -132,7 +132,7 @@ namespace SimpleISO7064
         /// Checks if the given value contains a valid check digit.
         /// </summary>
         /// <param name="value">The value to check</param>
-        /// <returns></returns>
+        /// <returns>If the computed value is valid</returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
         public bool IsValid(string value)
@@ -148,6 +148,8 @@ namespace SimpleISO7064
         /// </summary>
         /// <param name="value">The value from which the check digit will be computed</param>
         /// <returns>The check digit</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public string ComputeCheckDigit(string value)
         {
             ValidateInput(value);
