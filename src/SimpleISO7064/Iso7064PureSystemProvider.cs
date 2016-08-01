@@ -84,7 +84,7 @@ namespace SimpleISO7064
         /// The supported character set
         /// </summary>
 #if NET40
-        public IEnumerable<char> CharacterSet { get; }
+        public IList<char> CharacterSet { get; }
 #else
         public IReadOnlyCollection<char> CharacterSet { get; }
 #endif
@@ -114,7 +114,29 @@ namespace SimpleISO7064
             ValidateInput(value);
             value = value.ToUpperInvariant();
 
-            throw new NotImplementedException();
+            int tmpCalculation = 0;
+
+            foreach (char valueDigit in value)
+            {
+                tmpCalculation = ((tmpCalculation + CharacterSet.IndexOf(valueDigit)) *Radix)%Modulus;
+            }
+
+            if (IsDoubleCheckDigit)
+            {
+                tmpCalculation = (tmpCalculation*Radix)%Modulus;
+            }
+
+            int checksum = (Modulus - tmpCalculation + 1)%Modulus;
+
+            if (!IsDoubleCheckDigit)
+            {
+                return CharacterSet[checksum].ToString();
+            }
+
+            int secondPosition = checksum%Radix;
+            int firstPosition = (checksum - secondPosition)/Radix;
+
+            return string.Concat(CharacterSet[firstPosition], CharacterSet[secondPosition]);
         }
 
         /// <summary>
