@@ -121,15 +121,15 @@ namespace SimpleISO7064
                 tmpCalculation = (tmpCalculation*Radix)%Modulus;
             }
 
-            int checksum = (Modulus - tmpCalculation + 1)%Modulus;
+            var checksum = (Modulus - tmpCalculation + 1)%Modulus;
 
             if (!IsDoubleCheckDigit)
             {
                 return CharacterSet[checksum].ToString();
             }
 
-            int secondPosition = checksum%Radix;
-            int firstPosition = (checksum - secondPosition)/Radix;
+            var secondPosition = checksum%Radix;
+            var firstPosition = (checksum - secondPosition)/Radix;
 
             return string.Concat(CharacterSet[firstPosition], CharacterSet[secondPosition]);
         }
