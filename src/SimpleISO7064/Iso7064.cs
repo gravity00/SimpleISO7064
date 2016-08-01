@@ -23,6 +23,8 @@
 #endregion
 namespace SimpleISO7064
 {
+    using PureSystems;
+
     /// <summary>
     /// Global ISO 7064 singletons
     /// </summary>
@@ -41,7 +43,7 @@ namespace SimpleISO7064
             /// <summary>
             /// Singleton Mod 11 Radix 2 provider
             /// </summary>
-            public static Iso7064PureSystemProvider Mod11Radix2 { get; } = Factory.GetMod11Radix2();
+            public static Mod11Radix2 Mod11Radix2 { get; } = Factory.GetMod11Radix2();
 
             /// <summary>
             /// Singleton Mod 37 Radix 2 provider

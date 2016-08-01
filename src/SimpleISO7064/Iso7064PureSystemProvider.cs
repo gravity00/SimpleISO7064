@@ -30,7 +30,7 @@ namespace SimpleISO7064
     /// An ISO 7064 Pure System provider to validate or 
     /// compute check digits
     /// </summary>
-    public sealed class Iso7064PureSystemProvider
+    public class Iso7064PureSystemProvider
     {
         private readonly int _numCheckDigits;
 
