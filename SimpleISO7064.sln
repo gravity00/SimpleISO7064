@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "git", "git", "{D6556BE1-C6F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{CB34D34F-E825-4A51-8ADD-487CE3A97A6C}"
 	ProjectSection(SolutionItems) = preProject
+		tools\SimpleISO7064-Logo.pdn = tools\SimpleISO7064-Logo.pdn
+		tools\SimpleISO7064-Logo.png = tools\SimpleISO7064-Logo.png
 		tools\SimpleISO7064.PublicKey = tools\SimpleISO7064.PublicKey
 		tools\SimpleISO7064.snk = tools\SimpleISO7064.snk
 	EndProjectSection
