@@ -54,6 +54,11 @@
         "mscorlib": ""
       }
     },
+    "net2.0": {
+      "frameworkAssemblies": {
+        "mscorlib": ""
+      }
+    },
     "net4.0": {
       "frameworkAssemblies": {
         "mscorlib": ""

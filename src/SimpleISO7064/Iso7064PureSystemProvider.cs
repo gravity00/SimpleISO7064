@@ -24,7 +24,9 @@
 namespace SimpleISO7064
 {
     using System;
+#if !NET20 && !NET40 && !PORTABLE40
     using System.Runtime.CompilerServices;
+#endif
 
     /// <summary>
     /// An ISO 7064 Pure System provider to validate or 
@@ -157,18 +159,37 @@ namespace SimpleISO7064
         /// <returns>The value prepared for processing</returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
-#if !NET40 && !PORTABLE40
+#if !NET20 && !NET40 && !PORTABLE40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
         private void ValidateInput(string value)
         {
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
+#if NET20
+            if (IsNullOrWhiteSpace(value))
+                throw new ArgumentException("Value cannot be null or whitespace.", nameof(value));
+#else
             if (string.IsNullOrWhiteSpace(value))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(value));
+#endif
             if (value.Length <= _numCheckDigits)
                 throw new ArgumentException(
                     string.Concat("Value length should be greater than ", _numCheckDigits), nameof(value));
         }
+
+#if NET20
+        private static bool IsNullOrWhiteSpace(string value)
+        {
+            if (value == null) return true;
+
+            for (var i = 0; i < value.Length; i++)
+            {
+                if (!char.IsWhiteSpace(value[i])) return false;
+            }
+
+            return true;
+        }
+#endif
     }
 }
