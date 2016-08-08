@@ -1,5 +1,5 @@
 ﻿{
-  "version": "1.0.0-rc02",
+  "version": "1.0.0",
   "title": "Simple ISO 7064",
   "description": "C# library that provide ISO 7064 implementations to verify or calculate check characters.",
   "authors": [ "João Simões" ],
