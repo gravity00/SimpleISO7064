@@ -1,4 +1,4 @@
-# SimpleISO7064
+# Simple ISO 7064
 C# library that provide ISO 7064 implementations to verify or calculate check characters.
 
 Out of the box, the library supports the following pure systems:
