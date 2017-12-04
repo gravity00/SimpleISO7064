@@ -31,7 +31,7 @@ namespace SimpleISO7064.PureSystems
         /// <summary>
         /// Creates a new instance
         /// </summary>
-        public Mod1271Radix36() : base(1271, 36, true, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXZY")
+        public Mod1271Radix36() : base(1271, 36, true, "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ")
         {
 
         }
