@@ -60,4 +60,22 @@ public class Iso7064Factory
     /// </summary>
     /// <returns>An ISO 7064 Pure System provider to validate or compute check digits, with Modulus 1271 and Radix 36</returns>
     public Mod1271Radix36 GetMod1271Radix36() => new();
+
+    /// <summary>
+    /// Creates an instance of <see cref="IIso7064PureSystemProvider"/> with the given parameters
+    /// </summary>
+    /// <param name="modulus">The pure system modulus</param>
+    /// <param name="radix">The pure system radix</param>
+    /// <param name="isDoubleCheckDigit">Is the computed check digit composed by two characters?</param>
+    /// <param name="characterSet">The supported character set</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ArgumentException"></exception>
+    public IIso7064PureSystemProvider Get(
+        int modulus,
+        int radix,
+        bool isDoubleCheckDigit,
+        string characterSet
+    ) => new Iso7064PureSystemProvider(modulus, radix, isDoubleCheckDigit, characterSet);
 }
