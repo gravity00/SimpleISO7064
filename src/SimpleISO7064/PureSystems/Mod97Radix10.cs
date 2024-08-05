@@ -21,19 +21,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #endregion
-namespace SimpleISO7064.PureSystems
+
+namespace SimpleISO7064.PureSystems;
+
+/// <summary>
+/// The pure system provider for ISO 7064 Mod 97 Radix 10
+/// </summary>
+public sealed class Mod97Radix10 : Iso7064PureSystemProvider
 {
     /// <summary>
-    /// The pure system provider for ISO 7064 Mod 97 Radix 10
+    /// Creates a new instance
     /// </summary>
-    public sealed class Mod97Radix10 : Iso7064PureSystemProvider
+    public Mod97Radix10() : base(97, 10, true, "0123456789")
     {
-        /// <summary>
-        /// Creates a new instance
-        /// </summary>
-        public Mod97Radix10() : base(97, 10, true, "0123456789")
-        {
 
-        }
     }
 }

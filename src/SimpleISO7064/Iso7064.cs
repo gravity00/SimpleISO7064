@@ -21,49 +21,49 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #endregion
-namespace SimpleISO7064
+
+using SimpleISO7064.PureSystems;
+
+namespace SimpleISO7064;
+
+/// <summary>
+/// Global ISO 7064 singletons
+/// </summary>
+public static class Iso7064
 {
-    using PureSystems;
+    /// <summary>
+    /// Global factory to build ISO 7064 providers
+    /// </summary>
+    public static Iso7064Factory Factory { get; } = new();
 
     /// <summary>
-    /// Global ISO 7064 singletons
+    /// Pure System providers
     /// </summary>
-    public static class Iso7064
+    public static class PureSystem
     {
         /// <summary>
-        /// Global factory to build ISO 7064 providers
+        /// Singleton Mod 11 Radix 2 provider
         /// </summary>
-        public static Iso7064Factory Factory { get; } = new Iso7064Factory();
+        public static Mod11Radix2 Mod11Radix2 { get; } = Factory.GetMod11Radix2();
 
         /// <summary>
-        /// Pure System providers
+        /// Singleton Mod 37 Radix 2 provider
         /// </summary>
-        public static class PureSystem
-        {
-            /// <summary>
-            /// Singleton Mod 11 Radix 2 provider
-            /// </summary>
-            public static Mod11Radix2 Mod11Radix2 { get; } = Factory.GetMod11Radix2();
+        public static Mod37Radix2 Mod37Radix2 { get; } = Factory.GetMod37Radix2();
 
-            /// <summary>
-            /// Singleton Mod 37 Radix 2 provider
-            /// </summary>
-            public static Mod37Radix2 Mod37Radix2 { get; } = Factory.GetMod37Radix2();
+        /// <summary>
+        /// Singleton Mod 97 Radix 10 provider
+        /// </summary>
+        public static Mod97Radix10 Mod97Radix10 { get; } = Factory.GetMod97Radix10();
 
-            /// <summary>
-            /// Singleton Mod 97 Radix 10 provider
-            /// </summary>
-            public static Mod97Radix10 Mod97Radix10 { get; } = Factory.GetMod97Radix10();
+        /// <summary>
+        /// Singleton Mod 661 Radix 26 provider
+        /// </summary>
+        public static Mod661Radix26 Mod661Radix26 { get; } = Factory.GetMod661Radix26();
 
-            /// <summary>
-            /// Singleton Mod 661 Radix 26 provider
-            /// </summary>
-            public static Mod661Radix26 Mod661Radix26 { get; } = Factory.GetMod661Radix26();
-
-            /// <summary>
-            /// Singleton Mod 1271 Radix 36 provider
-            /// </summary>
-            public static Mod1271Radix36 Mod1271Radix36 { get; } = Factory.GetMod1271Radix36();
-        }
+        /// <summary>
+        /// Singleton Mod 1271 Radix 36 provider
+        /// </summary>
+        public static Mod1271Radix36 Mod1271Radix36 { get; } = Factory.GetMod1271Radix36();
     }
 }

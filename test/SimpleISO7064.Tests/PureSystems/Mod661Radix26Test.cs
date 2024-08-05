@@ -21,123 +21,106 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #endregion
-namespace SimpleISO7064.Tests.PureSystems
+
+namespace SimpleISO7064.Tests.PureSystems;
+
+public class Mod661Radix26Test
 {
-    using SimpleISO7064.PureSystems;
-    using System;
-    using System.Collections.Generic;
-    using Xunit;
-
-    public class Mod661Radix26Test
+    [Theory, MemberData(nameof(ValidComputedData))]
+    public void IsValid_ValidParameter_ReturnTrue(
+        string computedValue
+    )
     {
-        [Theory, MemberData(nameof(ValidData))]
-        public void GivenAValidComputedValueWhenValidatedThenTrueMustBeReturned(
-            string computedValue, string value, string checkDigit)
-        {
-            var provider = new Mod661Radix26();
-            Assert.True(provider.IsValid(computedValue));
-        }
-
-        [Theory, MemberData(nameof(ValidData))]
-        public void GivenAValidValueWhenComputedThenAValidComputedValueMustBeCreated(
-            string computedValue, string value, string checkDigit)
-        {
-            var provider = new Mod661Radix26();
-            Assert.Equal(computedValue, provider.Compute(value));
-        }
-
-        [Theory, MemberData(nameof(ValidData))]
-        public void GivenAValidValueWhenComputedTheCheckDigitThenAValidCheckDigitMustBeCreated(
-            string computedValue, string value, string checkDigit)
-        {
-            var provider = new Mod661Radix26();
-            Assert.Equal(checkDigit, provider.ComputeCheckDigit(value));
-        }
-
-        [Theory, MemberData(nameof(InvalidComputedData))]
-        public void GivenAnInvalidComputedValueWhenValidatedThenFalseMustBeReturned(string computedValue)
-        {
-            var provider = new Mod661Radix26();
-            Assert.False(provider.IsValid(computedValue));
-        }
-
-        [Theory, MemberData(nameof(BadFormatData))]
-        public void GivenAnBadFormatComputedValueWhenValidatedThenExceptionMustBeThrown(string computedValue)
-        {
-            var provider = new Mod661Radix26();
-            Assert.ThrowsAny<ArgumentException>(() =>
-            {
-                provider.IsValid(computedValue);
-            });
-        }
-
-        [Theory, MemberData(nameof(BadFormatData))]
-        public void GivenAnBadFormatComputedValueWhenComputedThenExceptionMustBeThrown(string computedValue)
-        {
-            var provider = new Mod661Radix26();
-            Assert.ThrowsAny<ArgumentException>(() =>
-            {
-                provider.Compute(computedValue);
-            });
-        }
-
-        [Theory, MemberData(nameof(BadFormatData))]
-        public void GivenAnBadFormatComputedValueWhenComputedCheckDigitThenExceptionMustBeThrown(string computedValue)
-        {
-            var provider = new Mod661Radix26();
-            Assert.ThrowsAny<ArgumentException>(() =>
-            {
-                provider.ComputeCheckDigit(computedValue);
-            });
-        }
-
-        #region Data
-
-        public static IEnumerable<object[]> ValidData
-        {
-            get
-            {
-                yield return new object[]
-                {
-                    "BAISDLAFKBM", "BAISDLAFK", "BM"
-                };
-            }
-        }
-
-        public static IEnumerable<object[]> InvalidComputedData
-        {
-            get
-            {
-                yield return new object[]
-                {
-                    "BAISDLAFKBMRJ"
-                };
-            }
-        }
-
-        public static IEnumerable<object[]> BadFormatData
-        {
-            get
-            {
-                yield return new object[]
-                {
-                    null
-                };
-                yield return new object[]
-                {
-                    string.Empty
-                };
-                yield return new object[]
-                {
-                    "   "
-                };
-                yield return new object[]
-                {
-                    "123ABCD<>!X"
-                };
-            }
-        }
-
-        #endregion
+        var provider = new Mod661Radix26();
+        Assert.True(provider.IsValid(computedValue));
     }
+
+    [Theory, MemberData(nameof(ValidComputedWithValueData))]
+    public void Compute_ValidParameter_MustMatchComputed(
+        string computedValue,
+        string value
+    )
+    {
+        var provider = new Mod661Radix26();
+        Assert.Equal(computedValue, provider.Compute(value));
+    }
+
+    [Theory, MemberData(nameof(ValidValueWithCheckDigitData))]
+    public void ComputeCheckDigit_ValidParameter_MustMatchCheckDigit(
+        string value,
+        string checkDigit
+    )
+    {
+        var provider = new Mod661Radix26();
+        Assert.Equal(checkDigit, provider.ComputeCheckDigit(value));
+    }
+
+    [Theory, MemberData(nameof(InvalidComputedData))]
+    public void IsValid_InvalidParameter_ReturnFalse(string computedValue)
+    {
+        var provider = new Mod661Radix26();
+        Assert.False(provider.IsValid(computedValue));
+    }
+
+    [Theory, MemberData(nameof(BadFormatData))]
+    public void IsValid_BadFormatParameter_ThrowsArgumentException(string? computedValue)
+    {
+        var provider = new Mod661Radix26();
+        Assert.ThrowsAny<ArgumentException>(() =>
+        {
+            provider.IsValid(computedValue!);
+        });
+    }
+
+    [Theory, MemberData(nameof(BadFormatData))]
+    public void Compute_BadFormatParameter_ThrowsArgumentException(string? computedValue)
+    {
+        var provider = new Mod661Radix26();
+        Assert.ThrowsAny<ArgumentException>(() =>
+        {
+            provider.Compute(computedValue!);
+        });
+    }
+
+    [Theory, MemberData(nameof(BadFormatData))]
+    public void ComputeCheckDigit_BadFormatParameter_ThrowsArgumentException(string? computedValue)
+    {
+        var provider = new Mod661Radix26();
+        Assert.ThrowsAny<ArgumentException>(() =>
+        {
+            provider.ComputeCheckDigit(computedValue!);
+        });
+    }
+
+    #region Data
+
+    public static TheoryData<string> ValidComputedData => new()
+    {
+        "BAISDLAFKBM"
+    };
+
+    public static TheoryData<string, string> ValidComputedWithValueData => new()
+    {
+        { "BAISDLAFKBM", "BAISDLAFK" }
+    };
+
+    public static TheoryData<string, string> ValidValueWithCheckDigitData => new()
+    {
+        { "BAISDLAFK", "BM" }
+    };
+
+    public static TheoryData<string> InvalidComputedData => new()
+    {
+        "BAISDLAFKBMRJ"
+    };
+
+    public static TheoryData<string?> BadFormatData => new()
+    {
+        null,
+        string.Empty,
+        "   ",
+        "123ABCD<>!X"
+    };
+
+    #endregion
 }

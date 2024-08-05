@@ -22,19 +22,45 @@
 // SOFTWARE.
 #endregion
 
-using System;
-using System.Reflection;
+namespace SimpleISO7064;
 
-[assembly: AssemblyTitle("SimpleISO7064.Examples")]
-[assembly: AssemblyDescription("Exampels for SimpleISO7064 project")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Net.JoaoSimoes")]
-[assembly: AssemblyProduct("SimpleISO7064")]
-[assembly: AssemblyCopyright("Copyright © 2016 João Simões")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
+internal static class Ensure
+{
+    public static void GreaterThan(int value, int comparer, string paramName)
+    {
+        if (value <= comparer)
+            throw new ArgumentOutOfRangeException(paramName, value, $"Value should be greater than {comparer}");
+    }
 
-[assembly: CLSCompliant(false)]
+    public static void NotNull<T>(T value, string paramName) where T : class
+    {
+        if (value == null)
+            throw new ArgumentNullException(paramName);
+    }
 
-[assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyInformationalVersion("1.0.*")]
+    public static void NotNullOrWhiteSpace(string value, string paramName)
+    {
+        NotNull(value, paramName);
+
+#if NET20
+        var isWhiteSpace = true;
+
+        if (value.Length > 0)
+        {
+            foreach (var c in value)
+            {
+                if (char.IsWhiteSpace(c))
+                    continue;
+
+                isWhiteSpace = false;
+                break;
+            }
+        }
+#else
+        var isWhiteSpace = string.IsNullOrWhiteSpace(value);
+#endif
+
+        if (isWhiteSpace)
+            throw new ArgumentException("Value cannot be whitespace.", paramName);
+    }
+}
