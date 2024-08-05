@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <Using Include="System" />
+    <Using Include="System.Text" />
   </ItemGroup>
 
 </Project>

@@ -101,48 +101,79 @@ public class Iso7064PureSystemProvider : IIso7064PureSystemProvider
     public bool IsValid(string value)
     {
         ValidateInput(value, _numCheckDigits);
-        value = value.ToUpperInvariant();
 
-        return value.Equals(Compute(value.Substring(0, value.Length - _numCheckDigits)));
+        var valueBuffer = new StringBuilder(value.Length);
+        valueBuffer.Append(value, 0, value.Length - _numCheckDigits);
+        ComputeAndAppendCheckDigit(valueBuffer, false);
+
+        for (var i = 0; i < value.Length; i++)
+        {
+            var origin = value[i];
+            var computed = valueBuffer[i];
+
+            if (computed == origin || computed == char.ToUpperInvariant(origin))
+                continue;
+            
+            return false;
+        }
+
+        return true;
     }
 
     /// <inheritdoc />
     public string ComputeCheckDigit(string value)
     {
         ValidateInput(value, _numCheckDigits);
-        value = value.ToUpperInvariant();
 
-        var tmpCalculation = 0;
-
-        foreach (var valueDigit in value)
-        {
-            var indexToAdd = CharacterSet.IndexOf(valueDigit);
-            if (indexToAdd < 0)
-                throw new ArgumentException($"Found illegal character '{valueDigit}'", nameof(value));
-            tmpCalculation = (tmpCalculation + indexToAdd) * Radix % Modulus;
-        }
-
-        if (IsDoubleCheckDigit) 
-            tmpCalculation = tmpCalculation * Radix % Modulus;
-
-        var checksum = (Modulus - tmpCalculation + 1) % Modulus;
-
-        if (!IsDoubleCheckDigit)
-            return CharacterSet[checksum].ToString();
-
-        var secondPosition = checksum % Radix;
-        var firstPosition = (checksum - secondPosition) / Radix;
-
-        return string.Concat(CharacterSet[firstPosition], CharacterSet[secondPosition]);
+        var valueBuffer = new StringBuilder(value, value.Length + _numCheckDigits);
+        ComputeAndAppendCheckDigit(valueBuffer, true);
+        return valueBuffer.ToString(value.Length, _numCheckDigits);
     }
 
     /// <inheritdoc />
     public string Compute(string value)
     {
         ValidateInput(value, _numCheckDigits);
-        value = value.ToUpperInvariant();
 
-        return string.Concat(value, ComputeCheckDigit(value));
+        var valueBuffer = new StringBuilder(value, value.Length + _numCheckDigits);
+        ComputeAndAppendCheckDigit(valueBuffer, true);
+        return valueBuffer.ToString();
+    }
+
+    private void ComputeAndAppendCheckDigit(StringBuilder valueBuffer, bool storeUpperCaseOnBuffer)
+    {
+        var tmpCalculation = 0;
+
+        for (var i = 0; i < valueBuffer.Length; i++)
+        {
+            var valueDigit = char.ToUpperInvariant(valueBuffer[i]);
+
+            var indexToAdd = CharacterSet.IndexOf(valueDigit);
+            if (indexToAdd < 0)
+                throw new ArgumentException($"Found illegal character '{valueDigit}'", nameof(valueBuffer));
+
+            tmpCalculation = (tmpCalculation + indexToAdd) * Radix % Modulus;
+
+            if (storeUpperCaseOnBuffer)
+                valueBuffer[i] = valueDigit;
+        }
+
+        if (IsDoubleCheckDigit)
+            tmpCalculation = tmpCalculation * Radix % Modulus;
+
+        var checksum = (Modulus - tmpCalculation + 1) % Modulus;
+
+        if (!IsDoubleCheckDigit)
+        {
+            valueBuffer.Append(CharacterSet[checksum]);
+            return;
+        }
+
+        var secondPosition = checksum % Radix;
+        var firstPosition = (checksum - secondPosition) / Radix;
+
+        valueBuffer.Append(CharacterSet[firstPosition]);
+        valueBuffer.Append(CharacterSet[secondPosition]);
     }
 
     private static void ValidateInput(string value, int numCheckDigits)
