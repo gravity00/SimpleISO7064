@@ -27,7 +27,7 @@ namespace SimpleISO7064;
 /// <summary>
 /// An ISO 7064 Pure System provider to validate or compute check digits
 /// </summary>
-public class Iso7064PureSystemProvider
+public class Iso7064PureSystemProvider : IIso7064PureSystemProvider
 {
     private readonly int _numCheckDigits;
 
@@ -85,33 +85,19 @@ public class Iso7064PureSystemProvider
 
     }
 
-    /// <summary>
-    /// The pure system modulus
-    /// </summary>
+    /// <inheritdoc />
     public int Modulus { get; }
 
-    /// <summary>
-    /// The pure system radix
-    /// </summary>
+    /// <inheritdoc />
     public int Radix { get; }
 
-    /// <summary>
-    /// Is the computed check digit composed by two characters?
-    /// </summary>
+    /// <inheritdoc />
     public bool IsDoubleCheckDigit { get; }
 
-    /// <summary>
-    /// The supported character set
-    /// </summary>
+    /// <inheritdoc />
     public string CharacterSet { get; }
 
-    /// <summary>
-    /// Checks if the given value contains a valid check digit.
-    /// </summary>
-    /// <param name="value">The value to check</param>
-    /// <returns>If the computed value is valid</returns>
-    /// <exception cref="ArgumentNullException"></exception>
-    /// <exception cref="ArgumentException"></exception>
+    /// <inheritdoc />
     public bool IsValid(string value)
     {
         ValidateInput(value, _numCheckDigits);
@@ -120,13 +106,7 @@ public class Iso7064PureSystemProvider
         return value.Equals(Compute(value.Substring(0, value.Length - _numCheckDigits)));
     }
 
-    /// <summary>
-    /// Computes the check digit from a given value.
-    /// </summary>
-    /// <param name="value">The value from which the check digit will be computed</param>
-    /// <returns>The check digit</returns>
-    /// <exception cref="ArgumentNullException"></exception>
-    /// <exception cref="ArgumentException"></exception>
+    /// <inheritdoc />
     public string ComputeCheckDigit(string value)
     {
         ValidateInput(value, _numCheckDigits);
@@ -156,13 +136,7 @@ public class Iso7064PureSystemProvider
         return string.Concat(CharacterSet[firstPosition], CharacterSet[secondPosition]);
     }
 
-    /// <summary>
-    /// Computes the check digit and appends it to the given value.
-    /// </summary>
-    /// <param name="value">The value from which the check digit will be computed</param>
-    /// <returns>The value and appended check digit</returns>
-    /// <exception cref="ArgumentNullException"></exception>
-    /// <exception cref="ArgumentException"></exception>
+    /// <inheritdoc />
     public string Compute(string value)
     {
         ValidateInput(value, _numCheckDigits);
