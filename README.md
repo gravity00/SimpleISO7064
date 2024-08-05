@@ -17,7 +17,7 @@ Install-Package SimpleISO7064
 
 ## Compatibility
 
-This library directly targets the folowing frameworks:
+This library directly targets the following frameworks:
 
 * .NET Standard 1.0;
 * .NET Standard 2.0;
@@ -25,7 +25,7 @@ This library directly targets the folowing frameworks:
 * .NET Framework 4.0;
 * .NET 5.0;
 
-## Usage (Version 1.0.0)
+## Usage (Version 2.0.0)
 
 Basic example:
 
