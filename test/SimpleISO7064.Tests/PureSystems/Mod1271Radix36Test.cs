@@ -22,7 +22,7 @@
 // SOFTWARE.
 #endregion
 
-namespace SimpleISO7064.Tests.PureSystems;
+namespace SimpleISO7064.PureSystems;
 
 public class Mod1271Radix36Test
 {
