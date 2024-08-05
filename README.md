@@ -25,109 +25,52 @@ This library directly targets the following frameworks:
 * .NET Framework 4.0;
 * .NET 5.0;
 
-## Usage (Version 2.0.0)
+## Usage
 
-Basic example:
+Basic example (using Mod 11 Radix 2 singleton):
 
-```csharp
-public static void Main(string[] args)
-{
-    string value = "1011000026831187407";
-    Console.WriteLine(
-        $"Value '{value}' is Mod 11 Radix 2 valid? {Iso7064.PureSystem.Mod11Radix2.IsValid(value)}");
-}
-//Value '1011000026831187407' is Mod 11 Radix 2 valid? True
+```cs
+const string value = "101100002683118740";
+
+IIso7064PureSystemProvider provider = Iso7064.PureSystem.Mod11Radix2;
+
+// computes the check digit -> 7
+var checkDigit = provider.ComputeCheckDigit(value);
+
+// computes the value with the check digit -> 1011000026831187407
+var computed = provider.Compute(value);
+
+// checks if the value is valid -> true
+var isValid = provider.IsValid(computed);
 ```
 
-Example with all currently supported pure systems
+Out of the box pure systems are available in the `Iso7064.PureSystem` namespace.
 
-```csharp
-public static void Main(string[] args)
-{
-    Console.WriteLine("SimpleISO7064 Examples application started...");
+```cs
+var mod11Radix2 = new Mod11Radix2();
+var mod37Radix2 = new Mod37Radix2();
+var mod97Radix10 = new Mod97Radix10();
+var mod661Radix26 = new Mod661Radix26();
+var mod1271Radix36 = new Mod1271Radix36();
+```
 
-    var results = new[]
-    {
-        "1011000026831187407",
-        "G123489654321Y",
-        "9999123456789012141490",
-        "BAISDLAFKBM",
-        "ISO793W"
-    }.Select(v => {
-        bool isMod11Radix2Valid;
-        try
-        {
-            isMod11Radix2Valid = Iso7064.PureSystem.Mod11Radix2.IsValid(v);
-        }
-        catch
-        {
-            isMod11Radix2Valid = false;
-        }
-        bool isMod37Radix2Valid;
-        try
-        {
-            isMod37Radix2Valid = Iso7064.PureSystem.Mod37Radix2.IsValid(v);
-        }
-        catch
-        {
-            isMod37Radix2Valid = false;
-        }
-        bool isMod97Radix10Valid;
-        try
-        {
-            isMod97Radix10Valid = Iso7064.PureSystem.Mod97Radix10.IsValid(v);
-        }
-        catch
-        {
-            isMod97Radix10Valid = false;
-        }
-        bool isMod661Radix26Valid;
-        try
-        {
-            isMod661Radix26Valid = Iso7064.PureSystem.Mod661Radix26.IsValid(v);
-        }
-        catch
-        {
-            isMod661Radix26Valid = false;
-        }
-        bool isMod1271Radix36Valid;
-        try
-        {
-            isMod1271Radix36Valid = Iso7064.PureSystem.Mod1271Radix36.IsValid(v);
-        }
-        catch
-        {
-            isMod1271Radix36Valid = false;
-        }
-        return new
-        {
-            Value = v,
-            IsMod11Radix2Valid = isMod11Radix2Valid,
-            IsMod37Radix2Valid = isMod37Radix2Valid,
-            IsMod97Radix10Valid = isMod97Radix10Valid,
-            IsMod661Radix26Valid = isMod661Radix26Valid,
-            IsMod1271Radix36Valid = isMod1271Radix36Valid
-        };
-    });
-    Console.WriteLine(
-        "Value \t\t\t Mod11Radix2 \t Mod37Radix2 \t Mod97Radix10 \t Mod661Radix26 \t Mod1271Radix36");
-    foreach(var result in results)
-    {
-        Console.WriteLine(
-            $"{result.Value.PadRight(22)} \t {result.IsMod11Radix2Valid} \t\t {result.IsMod37Radix2Valid} \t\t {result.IsMod97Radix10Valid} \t\t {result.IsMod661Radix26Valid} \t\t {result.IsMod1271Radix36Valid}");
-    }
+Since the pure system implementations are thread safe, it is recommended to use the singleton instances available in the `Iso7064.PureSystem` class.
 
-    Console.WriteLine("Application ended. Press <enter> to exit...");
-    Console.ReadLine();
-}
-/*
-SimpleISO7064 Examples application started...
-Value                    Mod11Radix2     Mod37Radix2     Mod97Radix10    Mod661Radix26   Mod1271Radix36
-1011000026831187407      True            False           False           False           False
-G123489654321Y           False           True            False           False           False
-9999123456789012141490   False           False           True            False           False
-BAISDLAFKBM              False           False           False           True            False
-ISO793W                  False           False           False           False           True
-Application ended. Press <enter> to exit...
-*/
+```cs
+var mod11Radix2 = Iso7064.PureSystem.Mod11Radix2;
+var mod37Radix2 = Iso7064.PureSystem.Mod37Radix2;
+var mod97Radix10 = Iso7064.PureSystem.Mod97Radix10;
+var mod661Radix26 = Iso7064.PureSystem.Mod661Radix26;
+var mod1271Radix36 = Iso7064.PureSystem.Mod1271Radix36;
+```
+
+You can also create your own pure systems either by creating a new instance of `Iso7064PureSystemProvider`, using the
+builder method provided by the `Iso7064Factory` class or by implementing the `IIso7064PureSystemProvider` interface.
+
+```cs
+// using the constructor
+var provider = new Iso7064PureSystemProvider(11, 2, false, "0123456789X");
+
+// using the factory
+var provider = Iso7064.Factory.Get(11, 2, false, "0123456789X");
 ```

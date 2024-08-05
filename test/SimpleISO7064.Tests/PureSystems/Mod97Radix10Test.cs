@@ -22,7 +22,7 @@
 // SOFTWARE.
 #endregion
 
-namespace SimpleISO7064.Tests.PureSystems;
+namespace SimpleISO7064.PureSystems;
 
 public class Mod97Radix10Test
 {
@@ -42,7 +42,11 @@ public class Mod97Radix10Test
     )
     {
         var provider = new Mod97Radix10();
-        Assert.Equal(computedValue, provider.Compute(value));
+        Assert.Equal(
+            computedValue,
+            provider.Compute(value),
+            StringComparer.InvariantCultureIgnoreCase
+        );
     }
 
     [Theory, MemberData(nameof(ValidValueWithCheckDigitData))]
@@ -52,7 +56,11 @@ public class Mod97Radix10Test
     )
     {
         var provider = new Mod97Radix10();
-        Assert.Equal(checkDigit, provider.ComputeCheckDigit(value));
+        Assert.Equal(
+            checkDigit,
+            provider.ComputeCheckDigit(value),
+            StringComparer.InvariantCultureIgnoreCase
+        );
     }
 
     [Theory, MemberData(nameof(InvalidComputedData))]

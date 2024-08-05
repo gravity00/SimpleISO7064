@@ -27,7 +27,7 @@ namespace SimpleISO7064;
 /// <summary>
 /// An ISO 7064 Pure System provider to validate or compute check digits
 /// </summary>
-public class Iso7064PureSystemProvider
+public class Iso7064PureSystemProvider : IIso7064PureSystemProvider
 {
     private readonly int _numCheckDigits;
 
@@ -85,90 +85,95 @@ public class Iso7064PureSystemProvider
 
     }
 
-    /// <summary>
-    /// The pure system modulus
-    /// </summary>
+    /// <inheritdoc />
     public int Modulus { get; }
 
-    /// <summary>
-    /// The pure system radix
-    /// </summary>
+    /// <inheritdoc />
     public int Radix { get; }
 
-    /// <summary>
-    /// Is the computed check digit composed by two characters?
-    /// </summary>
+    /// <inheritdoc />
     public bool IsDoubleCheckDigit { get; }
 
-    /// <summary>
-    /// The supported character set
-    /// </summary>
+    /// <inheritdoc />
     public string CharacterSet { get; }
 
-    /// <summary>
-    /// Checks if the given value contains a valid check digit.
-    /// </summary>
-    /// <param name="value">The value to check</param>
-    /// <returns>If the computed value is valid</returns>
-    /// <exception cref="ArgumentNullException"></exception>
-    /// <exception cref="ArgumentException"></exception>
+    /// <inheritdoc />
     public bool IsValid(string value)
     {
         ValidateInput(value, _numCheckDigits);
-        value = value.ToUpperInvariant();
 
-        return value.Equals(Compute(value.Substring(0, value.Length - _numCheckDigits)));
+        var valueBuffer = new StringBuilder(value.Length);
+        valueBuffer.Append(value, 0, value.Length - _numCheckDigits);
+        ComputeAndAppendCheckDigit(valueBuffer, false);
+
+        for (var i = 0; i < value.Length; i++)
+        {
+            var origin = value[i];
+            var computed = valueBuffer[i];
+
+            if (computed == origin || computed == char.ToUpperInvariant(origin))
+                continue;
+            
+            return false;
+        }
+
+        return true;
     }
 
-    /// <summary>
-    /// Computes the check digit from a given value.
-    /// </summary>
-    /// <param name="value">The value from which the check digit will be computed</param>
-    /// <returns>The check digit</returns>
-    /// <exception cref="ArgumentNullException"></exception>
-    /// <exception cref="ArgumentException"></exception>
+    /// <inheritdoc />
     public string ComputeCheckDigit(string value)
     {
         ValidateInput(value, _numCheckDigits);
-        value = value.ToUpperInvariant();
 
+        var valueBuffer = new StringBuilder(value, value.Length + _numCheckDigits);
+        ComputeAndAppendCheckDigit(valueBuffer, true);
+        return valueBuffer.ToString(value.Length, _numCheckDigits);
+    }
+
+    /// <inheritdoc />
+    public string Compute(string value)
+    {
+        ValidateInput(value, _numCheckDigits);
+
+        var valueBuffer = new StringBuilder(value, value.Length + _numCheckDigits);
+        ComputeAndAppendCheckDigit(valueBuffer, true);
+        return valueBuffer.ToString();
+    }
+
+    private void ComputeAndAppendCheckDigit(StringBuilder valueBuffer, bool storeUpperCaseOnBuffer)
+    {
         var tmpCalculation = 0;
 
-        foreach (var valueDigit in value)
+        for (var i = 0; i < valueBuffer.Length; i++)
         {
+            var valueDigit = char.ToUpperInvariant(valueBuffer[i]);
+
             var indexToAdd = CharacterSet.IndexOf(valueDigit);
             if (indexToAdd < 0)
-                throw new ArgumentException($"Found illegal character '{valueDigit}'", nameof(value));
+                throw new ArgumentException($"Found illegal character '{valueDigit}'", nameof(valueBuffer));
+
             tmpCalculation = (tmpCalculation + indexToAdd) * Radix % Modulus;
+
+            if (storeUpperCaseOnBuffer)
+                valueBuffer[i] = valueDigit;
         }
 
-        if (IsDoubleCheckDigit) 
+        if (IsDoubleCheckDigit)
             tmpCalculation = tmpCalculation * Radix % Modulus;
 
         var checksum = (Modulus - tmpCalculation + 1) % Modulus;
 
         if (!IsDoubleCheckDigit)
-            return CharacterSet[checksum].ToString();
+        {
+            valueBuffer.Append(CharacterSet[checksum]);
+            return;
+        }
 
         var secondPosition = checksum % Radix;
         var firstPosition = (checksum - secondPosition) / Radix;
 
-        return string.Concat(CharacterSet[firstPosition], CharacterSet[secondPosition]);
-    }
-
-    /// <summary>
-    /// Computes the check digit and appends it to the given value.
-    /// </summary>
-    /// <param name="value">The value from which the check digit will be computed</param>
-    /// <returns>The value and appended check digit</returns>
-    /// <exception cref="ArgumentNullException"></exception>
-    /// <exception cref="ArgumentException"></exception>
-    public string Compute(string value)
-    {
-        ValidateInput(value, _numCheckDigits);
-        value = value.ToUpperInvariant();
-
-        return string.Concat(value, ComputeCheckDigit(value));
+        valueBuffer.Append(CharacterSet[firstPosition]);
+        valueBuffer.Append(CharacterSet[secondPosition]);
     }
 
     private static void ValidateInput(string value, int numCheckDigits)

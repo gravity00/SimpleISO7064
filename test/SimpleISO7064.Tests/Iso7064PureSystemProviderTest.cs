@@ -22,7 +22,7 @@
 // SOFTWARE.
 #endregion
 
-namespace SimpleISO7064.Tests;
+namespace SimpleISO7064;
 
 public class Iso7064PureSystemProviderTest
 {

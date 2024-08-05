@@ -27,18 +27,23 @@
 
   <PropertyGroup>
     <PackageTags>ISO7064;checksum</PackageTags>
-    <PackageIconUrl>https://raw.githubusercontent.com/gravity00/SimpleISO7064/master/tools/SimpleISO7064-Logo.png</PackageIconUrl>
+    <PackageIcon>logo.png</PackageIcon>
     <PackageProjectUrl>https://github.com/gravity00/SimpleISO7064</PackageProjectUrl>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/gravity00/SimpleISO7064/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/gravity00/SimpleISO7064.git</RepositoryUrl>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md;..\..\LICENSE;..\..\tools\logo.png" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 
   <PropertyGroup>
     <AssemblyVersion>2.0.0</AssemblyVersion>
-    <FileVersion>2.0.0.24218</FileVersion>
-    <VersionPrefix>2.0.0-rc01</VersionPrefix>
+    <FileVersion>2.0.0.24219</FileVersion>
+    <VersionPrefix>2.0.0-rc02</VersionPrefix>
   </PropertyGroup>
 
 </Project>

@@ -35,6 +35,15 @@ steps:
     DOTNET_CLI_TELEMETRY_OPTOUT: 1
 
 - task: DotNetCoreCLI@2
+  displayName: 'dotnet test'
+  inputs:
+    command: test
+    arguments: '--configuration $(buildConfiguration) --no-build'
+  env:
+    DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+    DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
+- task: DotNetCoreCLI@2
   displayName: 'dotnet pack nugets'
   inputs:
     command: pack
