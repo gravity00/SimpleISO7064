@@ -17,20 +17,13 @@ Install-Package SimpleISO7064
 
 ## Compatibility
 
-This library is compatible with the folowing frameworks:
+This library directly targets the folowing frameworks:
 
-* MonoAndroid 1.0;
-* MonoTouch 1.0;
-* .NETFramework 2.0;
-* .NETFramework 4.0;
-* .NETFramework 4.5;
-* .NETCore 5.0;
-* .NETStandard 1.0;
-* Portable Class Library (.NETFramework 4.0, Silverlight 5.0, Windows 8.0, WindowsPhone 8.0, WindowsPhoneApp 8.1);
-* Portable Class Library (.NETFramework 4.5, Windows 8.0, WindowsPhoneApp 8.1);
-* WindowsPhoneApp 8.1;
-* Xamarin.iOS 1.0;
-* Xamarin.TVOS 1.0;
+* .NET Standard 1.0;
+* .NET Standard 2.0;
+* .NET Framework 2.0;
+* .NET Framework 4.0;
+* .NET 5.0;
 
 ## Usage (Version 1.0.0)
 
