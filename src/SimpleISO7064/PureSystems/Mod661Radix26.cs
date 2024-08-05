@@ -1,7 +1,7 @@
 ﻿#region License
 // The MIT License (MIT)
 // 
-// Copyright (c) 2016 João Simões
+// Copyright (c) 2024 João Simões
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,19 +21,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #endregion
-namespace SimpleISO7064.PureSystems
+
+namespace SimpleISO7064.PureSystems;
+
+/// <summary>
+/// The pure system provider for ISO 7064 Mod 661 Radix 26
+/// </summary>
+public sealed class Mod661Radix26 : Iso7064PureSystemProvider
 {
     /// <summary>
-    /// The pure system provider for ISO 7064 Mod 661 Radix 26
+    /// Creates a new instance
     /// </summary>
-    public sealed class Mod661Radix26 : Iso7064PureSystemProvider
+    public Mod661Radix26() : base(661, 26, true, "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
     {
-        /// <summary>
-        /// Creates a new instance
-        /// </summary>
-        public Mod661Radix26() : base(661, 26, true, "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-        {
 
-        }
     }
 }

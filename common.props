@@ -1,0 +1,44 @@
+<Project>
+
+  <PropertyGroup>
+    <RootNamespace>SimpleISO7064</RootNamespace>
+    <Product>SimpleISO7064</Product>
+    <Company>Net.JoaoSimoes</Company>
+    <Copyright>Copyright © 2024 João Simões</Copyright>
+    <Authors>João Simões</Authors>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateAssemblyTitleAttribute>true</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>true</GenerateAssemblyDescriptionAttribute>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>../../tools/SimpleISO7064.snk</AssemblyOriginatorKeyFile>
+    <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
+    <SignAssembly>true</SignAssembly>
+    <GenerateAssemblyTitleAttribute>true</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>true</GenerateAssemblyDescriptionAttribute>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageTags>ISO7064;checksum</PackageTags>
+    <PackageIconUrl>https://raw.githubusercontent.com/gravity00/SimpleISO7064/master/tools/SimpleISO7064-Logo.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/gravity00/SimpleISO7064</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/gravity00/SimpleISO7064/master/LICENSE</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/gravity00/SimpleISO7064.git</RepositoryUrl>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AssemblyVersion>2.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.24218</FileVersion>
+    <VersionPrefix>2.0.0-rc01</VersionPrefix>
+  </PropertyGroup>
+
+</Project>
