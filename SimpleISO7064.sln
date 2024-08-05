@@ -7,10 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{B53ADA8B
 	ProjectSection(SolutionItems) = preProject
 		azure-pipelines.yml = azure-pipelines.yml
 		common.props = common.props
-		LICENSE = LICENSE
-		README.md = README.md
-		tools\SimpleISO7064-Logo.pdn = tools\SimpleISO7064-Logo.pdn
-		tools\SimpleISO7064-Logo.png = tools\SimpleISO7064-Logo.png
 		tools\SimpleISO7064.PublicKey = tools\SimpleISO7064.PublicKey
 		tools\SimpleISO7064.snk = tools\SimpleISO7064.snk
 	EndProjectSection
