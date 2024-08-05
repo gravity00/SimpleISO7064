@@ -42,7 +42,11 @@ public class Mod37Radix2Test
     )
     {
         var provider = new Mod37Radix2();
-        Assert.Equal(computedValue, provider.Compute(value));
+        Assert.Equal(
+            computedValue,
+            provider.Compute(value),
+            StringComparer.InvariantCultureIgnoreCase
+        );
     }
 
     [Theory, MemberData(nameof(ValidValueWithCheckDigitData))]
@@ -52,7 +56,11 @@ public class Mod37Radix2Test
     )
     {
         var provider = new Mod37Radix2();
-        Assert.Equal(checkDigit, provider.ComputeCheckDigit(value));
+        Assert.Equal(
+            checkDigit,
+            provider.ComputeCheckDigit(value),
+            StringComparer.InvariantCultureIgnoreCase
+        );
     }
 
     [Theory, MemberData(nameof(InvalidComputedData))]
@@ -96,17 +104,20 @@ public class Mod37Radix2Test
 
     public static TheoryData<string> ValidComputedData => new()
     {
-        "G123489654321Y"
+        "G123489654321Y",
+        "g123489654321y"
     };
 
     public static TheoryData<string, string> ValidComputedWithValueData => new()
     {
-        { "G123489654321Y", "G123489654321" }
+        { "G123489654321Y", "G123489654321" },
+        { "g123489654321y", "g123489654321" }
     };
 
     public static TheoryData<string, string> ValidValueWithCheckDigitData => new()
     {
-        { "G123489654321", "Y" }
+        { "G123489654321", "Y" },
+        { "g123489654321", "Y" }
     };
 
     public static TheoryData<string> InvalidComputedData => new()

@@ -42,7 +42,11 @@ public class Mod11Radix2Test
     )
     {
         var provider = new Mod11Radix2();
-        Assert.Equal(computedValue, provider.Compute(value));
+        Assert.Equal(
+            computedValue,
+            provider.Compute(value),
+            StringComparer.InvariantCultureIgnoreCase
+        );
     }
 
     [Theory, MemberData(nameof(ValidValueWithCheckDigitData))]
@@ -52,7 +56,11 @@ public class Mod11Radix2Test
     )
     {
         var provider = new Mod11Radix2();
-        Assert.Equal(checkDigit, provider.ComputeCheckDigit(value));
+        Assert.Equal(
+            checkDigit,
+            provider.ComputeCheckDigit(value),
+            StringComparer.InvariantCultureIgnoreCase
+        );
     }
 
     [Theory, MemberData(nameof(InvalidComputedData))]
