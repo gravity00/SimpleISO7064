@@ -5,6 +5,7 @@ VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{B53ADA8B-F63E-4EEB-9049-56C13CA1368C}"
 	ProjectSection(SolutionItems) = preProject
+		azure-pipelines.yml = azure-pipelines.yml
 		common.props = common.props
 		LICENSE = LICENSE
 		README.md = README.md

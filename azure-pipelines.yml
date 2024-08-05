@@ -1,0 +1,54 @@
+trigger:
+  tags:
+    include:
+    - v*
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  buildConfiguration: 'release'
+
+steps:
+- task: UseDotNet@2
+  displayName: 'install dotnet sdk'
+  inputs:
+    version: '8.x'
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet restore'
+  inputs:
+    command: restore
+    projects: '**/*.csproj'
+  env:
+    DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+    DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet build'
+  inputs:
+    command: build
+    projects: '**/*.csproj'
+    arguments: '--configuration $(buildConfiguration) --no-restore'
+  env:
+    DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+    DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet pack nugets'
+  inputs:
+    command: pack
+    publishWebProjects: false
+    projects: '**/*.csproj'
+    packDirectory: '$(build.artifactstagingdirectory)'
+    nobuild: true
+  env:
+    DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
+    DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  
+- task: PublishBuildArtifacts@1
+  displayName: 'publish artifacts'
+  inputs:
+    pathtoPublish: '$(build.artifactStagingDirectory)'
+    artifactName: '$(build.definitionName)'
+    publishLocation: 'Container'
