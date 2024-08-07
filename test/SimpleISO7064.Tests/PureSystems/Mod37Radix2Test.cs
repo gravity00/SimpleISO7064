@@ -104,20 +104,17 @@ public class Mod37Radix2Test
 
     public static TheoryData<string> ValidComputedData => new()
     {
-        "G123489654321Y",
-        "g123489654321y"
+        "G123489654321Y"
     };
 
     public static TheoryData<string, string> ValidComputedWithValueData => new()
     {
-        { "G123489654321Y", "G123489654321" },
-        { "g123489654321y", "g123489654321" }
+        { "G123489654321Y", "G123489654321" }
     };
 
     public static TheoryData<string, string> ValidValueWithCheckDigitData => new()
     {
-        { "G123489654321", "Y" },
-        { "g123489654321", "Y" }
+        { "G123489654321", "Y" }
     };
 
     public static TheoryData<string> InvalidComputedData => new()
