@@ -104,20 +104,17 @@ public class Mod1271Radix36Test
 
     public static TheoryData<string> ValidComputedData => new()
     {
-        "ISO793W",
-        "iso793w",
+        "ISO793W"
     };
 
     public static TheoryData<string, string> ValidComputedWithValueData => new()
     {
-        { "ISO793W", "ISO79" },
-        { "iso793W", "iso79" }
+        { "ISO793W", "ISO79" }
     };
 
     public static TheoryData<string, string> ValidValueWithCheckDigitData => new()
     {
-        { "ISO79", "3W" },
-        { "iso79", "3W" }
+        { "ISO79", "3W" }
     };
 
     public static TheoryData<string> InvalidComputedData => new()

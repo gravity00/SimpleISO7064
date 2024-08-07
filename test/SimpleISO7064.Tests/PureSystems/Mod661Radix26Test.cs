@@ -104,20 +104,17 @@ public class Mod661Radix26Test
 
     public static TheoryData<string> ValidComputedData => new()
     {
-        "BAISDLAFKBM",
-        "BaisDLAfkbm"
+        "BAISDLAFKBM"
     };
 
     public static TheoryData<string, string> ValidComputedWithValueData => new()
     {
-        { "BAISDLAFKBM", "BAISDLAFK" },
-        { "BaisDLAfkbm", "BaisDLAfk" }
+        { "BAISDLAFKBM", "BAISDLAFK" }
     };
 
     public static TheoryData<string, string> ValidValueWithCheckDigitData => new()
     {
-        { "BAISDLAFK", "BM" },
-        { "BaisDLAfk", "BM" }
+        { "BAISDLAFK", "BM" }
     };
 
     public static TheoryData<string> InvalidComputedData => new()

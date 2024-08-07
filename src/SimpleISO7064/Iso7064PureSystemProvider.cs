@@ -102,22 +102,20 @@ public class Iso7064PureSystemProvider : IIso7064PureSystemProvider
     {
         ValidateInput(value, _numCheckDigits);
 
-        var valueBuffer = new StringBuilder(value.Length);
-        valueBuffer.Append(value, 0, value.Length - _numCheckDigits);
-        ComputeAndAppendCheckDigit(valueBuffer, false);
+        ComputeCheckDigit(
+            value,
+            value.Length - _numCheckDigits,
+            out var firstCheckDigit,
+            out var secondCheckDigit
+        );
 
-        for (var i = 0; i < value.Length; i++)
+        if (IsDoubleCheckDigit)
         {
-            var origin = value[i];
-            var computed = valueBuffer[i];
-
-            if (computed == origin || computed == char.ToUpperInvariant(origin))
-                continue;
-            
-            return false;
+            return value[value.Length - 2] == firstCheckDigit &&
+                   value[value.Length - 1] == secondCheckDigit;
         }
 
-        return true;
+        return value[value.Length - 1] == firstCheckDigit;
     }
 
     /// <inheritdoc />
@@ -125,9 +123,14 @@ public class Iso7064PureSystemProvider : IIso7064PureSystemProvider
     {
         ValidateInput(value, _numCheckDigits);
 
-        var valueBuffer = new StringBuilder(value, value.Length + _numCheckDigits);
-        ComputeAndAppendCheckDigit(valueBuffer, true);
-        return valueBuffer.ToString(value.Length, _numCheckDigits);
+        ComputeCheckDigit(
+            value,
+            value.Length,
+            out var firstCheckDigit,
+            out var secondCheckDigit
+        );
+
+        return IsDoubleCheckDigit ? $"{firstCheckDigit}{secondCheckDigit}" : firstCheckDigit.ToString();
     }
 
     /// <inheritdoc />
@@ -135,27 +138,34 @@ public class Iso7064PureSystemProvider : IIso7064PureSystemProvider
     {
         ValidateInput(value, _numCheckDigits);
 
-        var valueBuffer = new StringBuilder(value, value.Length + _numCheckDigits);
-        ComputeAndAppendCheckDigit(valueBuffer, true);
-        return valueBuffer.ToString();
+        ComputeCheckDigit(
+            value,
+            value.Length,
+            out var firstCheckDigit,
+            out var secondCheckDigit
+        );
+
+        return IsDoubleCheckDigit ? $"{value}{firstCheckDigit}{secondCheckDigit}" : $"{value}{firstCheckDigit}";
     }
 
-    private void ComputeAndAppendCheckDigit(StringBuilder valueBuffer, bool storeUpperCaseOnBuffer)
+    private void ComputeCheckDigit(
+        string value,
+        int count,
+        out char firstCheckDigit,
+        out char secondCheckDigit
+    )
     {
         var tmpCalculation = 0;
 
-        for (var i = 0; i < valueBuffer.Length; i++)
+        for (var i = 0; i < count; i++)
         {
-            var valueDigit = char.ToUpperInvariant(valueBuffer[i]);
+            var valueDigit = value[i];
 
             var indexToAdd = CharacterSet.IndexOf(valueDigit);
             if (indexToAdd < 0)
-                throw new ArgumentException($"Found illegal character '{valueDigit}'", nameof(valueBuffer));
+                throw new ArgumentException($"Found illegal character '{valueDigit}'", nameof(value));
 
             tmpCalculation = (tmpCalculation + indexToAdd) * Radix % Modulus;
-
-            if (storeUpperCaseOnBuffer)
-                valueBuffer[i] = valueDigit;
         }
 
         if (IsDoubleCheckDigit)
@@ -165,15 +175,16 @@ public class Iso7064PureSystemProvider : IIso7064PureSystemProvider
 
         if (!IsDoubleCheckDigit)
         {
-            valueBuffer.Append(CharacterSet[checksum]);
+            firstCheckDigit = CharacterSet[checksum];
+            secondCheckDigit = default;
             return;
         }
 
         var secondPosition = checksum % Radix;
         var firstPosition = (checksum - secondPosition) / Radix;
 
-        valueBuffer.Append(CharacterSet[firstPosition]);
-        valueBuffer.Append(CharacterSet[secondPosition]);
+        firstCheckDigit = CharacterSet[firstPosition];
+        secondCheckDigit = CharacterSet[secondPosition];
     }
 
     private static void ValidateInput(string value, int numCheckDigits)
