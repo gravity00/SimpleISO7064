@@ -74,3 +74,22 @@ var provider = new Iso7064PureSystemProvider(11, 2, false, "0123456789X");
 // using the factory
 var provider = Iso7064.Factory.Get(11, 2, false, "0123456789X");
 ```
+
+## V2 vs V1 Notes
+
+There were a couple of small breaking changes between version 1 and version 2 of this library.
+
+### Case sensitive
+
+The library is now case sensitive, meaning that if you are interpreting inputs from a user you should do some treatment before.
+This was an intended change to increase library performance while also allowing for any kind of character set composition, even case sensitive.
+
+### Directly targeted frameworks
+
+Reduced the number of directly targeted frameworks but this change should still allow to be used almost everywhere.
+
+* .NET Standard 1.0;
+* .NET Standard 2.0;
+* .NET Framework 2.0;
+* .NET Framework 4.0;
+* .NET 5.0;
